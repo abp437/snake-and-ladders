@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Snake & Ladders Game</title>
+    <link rel="stylesheet" href="./index.css">
+  </head>
+  <body>
+    <div id="add-players-step" class="d-flex flex-column align-items-center justify-content-center add-players-step">
+      <h1 class="bottom-20">Welcome to Snakes & Ladders</h1>
+      <div>
+        <input type="text" id="player-count" class="padding-20" name="player-count" value="" placeholder="Enter the number of players to play the game">
+        <button id="start-game" class="padding-20 left-10" type="button" name="start-game">
+          Start Game
+        </button>
+      </div>
+    </div>
+    <div id="snake-game-step" class="snake-game-step hide">
+      <div class="position-relative d-flex bottom-20 snake-board-wrapper">
+        <div id="snake-board" class="d-flex position-relative snake-board">
+          <img src="./snake-and-ladders.jpg" alt="Snake & Ladders Board">
+        </div>
+        <div class="left-10">
+          <h3 id="current-player-turn"></h3>
+          <h1 class="bottom-20">Press spacebar to roll dice</h1>
+          <span id="current-dice-roll" class="hide"></span>
+        </div>
+      </div>
+      <div id="initial-spacer-div" class="d-flex"></div>
+    </div>
+    <script src="./index.js" charset="utf-8"></script>
+  </body>
+</html>

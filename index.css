@@ -1,0 +1,151 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.top-10 {
+  margin-top: 10px;
+}
+
+.left-10 {
+  margin-left: 10px;
+}
+
+.bottom-20 {
+  margin-bottom: 20px;
+}
+
+.padding-20 {
+  padding: 20px;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.hide {
+  display: none;
+}
+
+.add-players-step {
+  height: 100vh;
+}
+
+.snake-game-step {
+  margin: 20px;
+}
+
+.player {
+  width: 30px;
+  height: 53px;
+  background-image: url(pawn.png);
+  background-size: 30px;
+  background-repeat: no-repeat;
+}
+
+.snake-board .player {
+  position: absolute;
+  bottom: 4px;
+  left: 15px;
+}
+
+.red-player {
+  background-color: red;
+}
+
+.blue-player {
+  background-color: #00bcd4;
+}
+
+.white-player {
+  background-color: white;
+}
+
+.salmon-player {
+  background-color: salmon;
+}
+
+/* Dice */
+.dice {
+  padding: 4px;
+  background-color: tomato;
+  width: 104px;
+  height: 104px;
+  border-radius: 10%;
+  margin-right : 10px;
+}
+
+.dot {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color:white;
+}
+
+.first-face {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.second-face {
+  display: flex ;
+  justify-content: space-between;
+}
+
+.second-face .dot:nth-of-type(2) {
+  align-self: flex-end;
+}
+
+.third-face {
+  display: flex;
+  justify-content: space-between;
+}
+
+.third-face .dot:nth-of-type(1) {
+  align-self :flex-end;
+}
+
+.third-face .dot:nth-of-type(2) {
+  align-self :center;
+}
+
+.fourth-face,
+.sixth-face,
+.fifth-face {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fourth-face .column,
+.sixth-face .column,
+.fifth-face .column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.fifth-face .column:nth-of-type(2) {
+  justify-content: center;
+}
