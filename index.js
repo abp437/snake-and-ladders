@@ -279,15 +279,17 @@ class Player {
     return this.#playerId;
   }
 
-  #move() {
-    const { x, y } = this.#calculatePosition(this.#currentPosition);
+  #moveOnUI() {
+    const { x, y } = this.#calculateUIPosition(this.#currentPosition);
     const elem = document.getElementById((`${this.#playerId}-player`));
     elem.style.bottom = `${y}px`;
     elem.style.left = `${x}px`;
   }
 
   #updatePlayerTurn(playerId, shouldUpdatePlayer = true) {
-    if (Board.currentPlayer.currentPosition === 100) {
+    const playerWon = Board.currentPlayer.currentPosition === 100;
+
+    if (playerWon) {
       alert(`${capitalize(Board.currentPlayer.playerId)} Wins`);
       window.location.reload();
     }
@@ -306,13 +308,18 @@ class Player {
 
   moveUponDiceRoll(diceRoll) {
     Board.showCurrentDiceRoll(diceRoll);
-    if (this.#currentPosition === 0) {
+
+    const playerFirstDiceRoll = this.#currentPosition === 0;
+    const diceRollOverflowsBoard = this.#currentPosition + diceRoll > 100;
+    const shouldGetDoubleChance = diceRoll === 6;
+
+    if (playerFirstDiceRoll) {
       const elem = document.getElementById((`${this.#playerId}-player`));
       elem.remove();
       document.getElementById('snake-board').appendChild(elem);
     }
 
-    if (this.currentPosition + diceRoll > 100) {
+    if (diceRollOverflowsBoard) {
       this.#updatePlayerTurn(this.#playerId);
       return;
     }
@@ -321,8 +328,7 @@ class Player {
     let looper = setInterval(() => {
       counter++;
       this.#currentPosition++;
-
-      this.#move();
+      this.#moveOnUI();
 
       if (counter >= diceRoll) {
         const currentNode = Board.nodes[Board.currentPlayer.currentPosition - 1];
@@ -333,7 +339,7 @@ class Player {
           this.#currentPosition = currentNode.snake.tail;
           this.#updatePlayerTurn(this.#playerId);
           setTimeout(() => {
-            this.#move();
+            this.#moveOnUI();
           }, Player.#movementTime);
           return;
         }
@@ -342,8 +348,13 @@ class Player {
           this.#currentPosition = currentNode.ladder.top;
           this.#updatePlayerTurn(this.#playerId, false);
           setTimeout(() => {
-            this.#move();
+            this.#moveOnUI();
           }, Player.#movementTime);
+          return;
+        }
+
+        if (shouldGetDoubleChance) {
+          this.#updatePlayerTurn(this.#playerId, false);
           return;
         }
 
@@ -352,34 +363,40 @@ class Player {
     }, Player.#movementTime);
   }
 
-  #calculatePosition(position) {
+  #calculateUIPosition(position) {
+    const rowSize = 10;
+    const isRowEndNode = p => p % rowSize === 0;
+    const isEvenRow = r => r % 2 === 0;
+    const boardNodeUIpx = 61;
+    const horizontalOffset = 15;
+    const verticalOffset = 4;
     let row, column;
 
-    if (position % 10 === 0) {
-      row = position / 10 - 1;
+    if (isRowEndNode(position)) {
+      row = position / rowSize - 1;
     } else {
-      row = Math.floor(position / 10);
+      row = Math.floor(position / rowSize);
     }
 
     // Left to right rows
-    if (row % 2 === 0) {
-      if (position % 10 === 0) {
-        column = 9;
+    if (isEvenRow(row)) {
+      if (isRowEndNode(position)) {
+        column = rowSize - 1;
       } else {
-        column = position % 10 - 1;
+        column = position % rowSize - 1;
       }
     // Right to left rows
     } else {
-      if (position % 10 === 0) {
+      if (isRowEndNode(position)) {
         column = 0;
       } else {
-        column = Math.abs(position % 10 - 10);
+        column = Math.abs(position % rowSize - rowSize);
       }
     }
 
     return {
-      x: 61 * column + 15,
-      y: 61 * row + 4,
+      x: boardNodeUIpx * column + horizontalOffset,
+      y: boardNodeUIpx * row + verticalOffset,
     };
   }
 }
@@ -390,6 +407,10 @@ function capitalize(string) {
 
 function shuffleArray(array) {
   array.sort(() => Math.random() - 0.5);
+}
+
+function isSpacebarPressed(e) {
+  return e.keyCode === 32;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -426,7 +447,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.onkeyup = (e) => {
     // Fire upon spacebar press
-    if (e.keyCode === 32) {
+    if (isSpacebarPressed(e)) {
       if (Board.disableControls) {
         return;
       }
