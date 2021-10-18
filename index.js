@@ -1,15 +1,15 @@
 class Dice {
-  static getDiceRollHtml(diceRoll) {
-    let diceRollHtml = ``;
+  static getDiceFaceHtml(diceRoll) {
+    let diceFaceHtml = ``;
     switch (diceRoll) {
       case 1:
-        diceRollHtml = `<div class="dice first-face">
+        diceFaceHtml = `<div class="dice first-face">
           <span class="dot">
           </span>
         </div>`;
         break;
       case 2:
-        diceRollHtml = `<div class="dice second-face">
+        diceFaceHtml = `<div class="dice second-face">
           <span class="dot">
           </span>
           <span class="dot">
@@ -17,14 +17,14 @@ class Dice {
         </div>`;
         break;
       case 3:
-        diceRollHtml = `<div class="dice third-face">
+        diceFaceHtml = `<div class="dice third-face">
           <span class="dot"></span>
           <span class="dot"></span>
           <span class="dot"></span>
         </div>`;
         break;
       case 4:
-        diceRollHtml = `<div class="fourth-face dice">
+        diceFaceHtml = `<div class="fourth-face dice">
           <div class="column">
             <span class="dot"></span>
             <span class="dot"></span>
@@ -36,7 +36,7 @@ class Dice {
         </div>`;
         break;
       case 5:
-        diceRollHtml = `<div class="fifth-face dice">
+        diceFaceHtml = `<div class="fifth-face dice">
           <div class="column">
             <span class="dot"></span>
             <span class="dot"></span>
@@ -51,7 +51,7 @@ class Dice {
         </div>`;
         break;
       case 6:
-        diceRollHtml = `<div class="sixth-face dice">
+        diceFaceHtml = `<div class="sixth-face dice">
           <div class="column">
             <span class="dot"></span>
             <span class="dot"></span>
@@ -65,11 +65,11 @@ class Dice {
         </div>`;
         break;
       default:
-        diceRollHtml = `<div class="dice"></div>`;
+        diceFaceHtml = `<div class="dice"></div>`;
         break;
     }
 
-    return diceRollHtml.replace(/(\r\n|\n|\r|\t)/gm, "");
+    return diceFaceHtml.replace(/(\r\n|\n|\r|\t)/gm, "");
   }
 
   // Returns a random number from 1 to 6
@@ -80,8 +80,9 @@ class Dice {
 
 class Board {
   #playerCount;
-
-  static possiblePlayers = ["red", "blue", "white", "salmon"];
+  #possiblePlayers;
+  #snakesList;
+  #laddersList;
 
   static currentPlayer = null;
 
@@ -92,47 +93,24 @@ class Board {
   static nodes = [];
 
   static showCurrentTurnText() {
-    document.getElementById("current-player-turn").textContent = `${capitalize(Board.currentPlayer.playerId)} player's turn`;
+    document.getElementById("current-player-turn").textContent = `${capitalize(
+      Board.currentPlayer.playerId
+    )} player's turn`;
   }
 
   static showCurrentDiceRoll(diceRoll) {
     const diceRollElem = document.getElementById("current-dice-roll");
     diceRollElem.classList.remove("hide");
-    diceRollElem.innerHTML = Dice.getDiceRollHtml(diceRoll);
+    diceRollElem.innerHTML = Dice.getDiceFaceHtml(diceRoll);
   }
 
-  static resetCurrentDiceRoll(diceRoll) {
+  static resetCurrentDiceRoll() {
     const diceRollElem = document.getElementById("current-dice-roll");
-    diceRollElem.innerHTML = Dice.getDiceRollHtml(0);
+    diceRollElem.innerHTML = Dice.getDiceFaceHtml(0);
   }
 
   get dice() {
     return new Dice();
-  }
-
-  static get snakesList() {
-    return [
-      { head: 40, tail: 3 },
-      { head: 43, tail: 18 },
-      { head: 27, tail: 5 },
-      { head: 54, tail: 31 },
-      { head: 66, tail: 45 },
-      { head: 76, tail: 58 },
-      { head: 89, tail: 53 },
-      { head: 99, tail: 41 },
-    ];
-  }
-
-  static get laddersList() {
-    return [
-      { bottom: 4, top: 25 },
-      { bottom: 13, top: 46 },
-      { bottom: 33, top: 49 },
-      { bottom: 42, top: 63 },
-      { bottom: 50, top: 69 },
-      { bottom: 62, top: 81 },
-      { bottom: 74, top: 92 },
-    ];
   }
 
   get nodes() {
@@ -145,6 +123,26 @@ class Board {
 
   constructor(playerCount) {
     this.#playerCount = playerCount;
+    this.#possiblePlayers = ["red", "blue", "white", "salmon"];
+    this.#snakesList = [
+      { head: 40, tail: 3 },
+      { head: 43, tail: 18 },
+      { head: 27, tail: 5 },
+      { head: 54, tail: 31 },
+      { head: 66, tail: 45 },
+      { head: 76, tail: 58 },
+      { head: 89, tail: 53 },
+      { head: 99, tail: 41 },
+    ];
+    this.#laddersList = [
+      { bottom: 4, top: 25 },
+      { bottom: 13, top: 46 },
+      { bottom: 33, top: 49 },
+      { bottom: 42, top: 63 },
+      { bottom: 50, top: 69 },
+      { bottom: 62, top: 81 },
+      { bottom: 74, top: 92 },
+    ];
     this.#initializeNodes();
     this.#initializeSnakes();
     this.#initializeLadders();
@@ -158,7 +156,7 @@ class Board {
   }
 
   #initializeSnakes() {
-    Board.snakesList.forEach((snake) => {
+    this.#snakesList.forEach((snake) => {
       const { head, tail } = snake;
       const headNode = Board.nodes[head - 1];
       headNode.setSnake(new Snake(head, tail));
@@ -166,7 +164,7 @@ class Board {
   }
 
   #initializeLadders() {
-    Board.laddersList.forEach((ladder) => {
+    this.#laddersList.forEach((ladder) => {
       const { top, bottom } = ladder;
       const bottomNode = Board.nodes[bottom - 1];
       bottomNode.setLadder(new Ladder(top, bottom));
@@ -174,13 +172,14 @@ class Board {
   }
 
   #initializePlayers() {
-    shuffleArray(Board.possiblePlayers);
+    shuffleArray(this.#possiblePlayers);
 
     for (let i = 0; i < this.#playerCount; i++) {
       const parser = new DOMParser();
-      const elem = Board.possiblePlayers[i];
+      const elem = this.#possiblePlayers[i];
       const htmlString = `<div id="${elem}-player" class="player ${elem}-player"></div>`;
-      const playerElem = parser.parseFromString(htmlString, "text/html").body.firstChild;
+      const playerElem = parser.parseFromString(htmlString, "text/html").body
+        .firstChild;
 
       Board.players.push(new Player(elem, 0));
       document.getElementById("initial-spacer-div").appendChild(playerElem);
@@ -263,10 +262,10 @@ class Ladder {
 class Player {
   #playerId;
   #currentPosition;
-
-  static #movementTime = 500;
+  #movementTime;
 
   constructor(playerId, currentPosition) {
+    this.#movementTime = 500;
     this.#playerId = playerId;
     this.#currentPosition = currentPosition;
   }
@@ -281,7 +280,7 @@ class Player {
 
   #moveOnUI() {
     const { x, y } = this.#calculateUIPosition(this.#currentPosition);
-    const elem = document.getElementById((`${this.#playerId}-player`));
+    const elem = document.getElementById(`${this.#playerId}-player`);
     elem.style.bottom = `${y}px`;
     elem.style.left = `${x}px`;
   }
@@ -295,7 +294,7 @@ class Player {
     }
 
     if (shouldUpdatePlayer) {
-      const boardPlayerIds = Board.players.map(value => value.#playerId);
+      const boardPlayerIds = Board.players.map((value) => value.#playerId);
       const currentIndex = boardPlayerIds.indexOf(playerId);
       const nextIndex = (currentIndex + 1) % Board.players.length;
       Board.currentPlayer = Board.players[nextIndex];
@@ -314,9 +313,9 @@ class Player {
     const shouldGetDoubleChance = diceRoll === 6;
 
     if (playerFirstDiceRoll) {
-      const elem = document.getElementById((`${this.#playerId}-player`));
+      const elem = document.getElementById(`${this.#playerId}-player`);
       elem.remove();
-      document.getElementById('snake-board').appendChild(elem);
+      document.getElementById("snake-board").appendChild(elem);
     }
 
     if (diceRollOverflowsBoard) {
@@ -331,7 +330,8 @@ class Player {
       this.#moveOnUI();
 
       if (counter >= diceRoll) {
-        const currentNode = Board.nodes[Board.currentPlayer.currentPosition - 1];
+        const currentNode =
+          Board.nodes[Board.currentPlayer.currentPosition - 1];
         clearInterval(looper);
 
         // Post movement checks
@@ -340,7 +340,7 @@ class Player {
           this.#updatePlayerTurn(this.#playerId);
           setTimeout(() => {
             this.#moveOnUI();
-          }, Player.#movementTime);
+          }, this.#movementTime);
           return;
         }
 
@@ -349,7 +349,7 @@ class Player {
           this.#updatePlayerTurn(this.#playerId, false);
           setTimeout(() => {
             this.#moveOnUI();
-          }, Player.#movementTime);
+          }, this.#movementTime);
           return;
         }
 
@@ -360,13 +360,13 @@ class Player {
 
         this.#updatePlayerTurn(this.#playerId);
       }
-    }, Player.#movementTime);
+    }, this.#movementTime);
   }
 
   #calculateUIPosition(position) {
     const rowSize = 10;
-    const isRowEndNode = p => p % rowSize === 0;
-    const isEvenRow = r => r % 2 === 0;
+    const isRowEndNode = (p) => p % rowSize === 0;
+    const isEvenRow = (r) => r % 2 === 0;
     const boardNodeUIpx = 61;
     const horizontalOffset = 15;
     const verticalOffset = 4;
@@ -383,14 +383,14 @@ class Player {
       if (isRowEndNode(position)) {
         column = rowSize - 1;
       } else {
-        column = position % rowSize - 1;
+        column = (position % rowSize) - 1;
       }
-    // Right to left rows
+      // Right to left rows
     } else {
       if (isRowEndNode(position)) {
         column = 0;
       } else {
-        column = Math.abs(position % rowSize - rowSize);
+        column = Math.abs((position % rowSize) - rowSize);
       }
     }
 
@@ -402,7 +402,7 @@ class Player {
 }
 
 function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function shuffleArray(array) {
