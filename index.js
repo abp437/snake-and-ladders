@@ -78,6 +78,16 @@ class Dice {
   }
 }
 
+class Logger {
+  static addLoggerEntry(message) {
+    const loggerEntry = htmlElemFromString(`<p class="is-family-monospace mb-2"><span class="has-text-weight-semibold">Bot:</span><span class="ml-3">${message}</span></p>`),
+      loggerElem = document.getElementById("logger");
+
+    loggerElem.appendChild(loggerEntry);
+    loggerElem.scrollTop = loggerElem.scrollHeight;
+  }
+}
+
 class Board {
   #playerCount;
   #possiblePlayers;
@@ -93,9 +103,7 @@ class Board {
   static nodes = [];
 
   static showCurrentTurnText() {
-    document.getElementById("current-player-turn").textContent = `${capitalize(
-      Board.currentPlayer.playerId
-    )} player's turn`;
+    document.getElementById("current-player-turn").textContent = `${Board.currentPlayerDisplayName} player's turn`;
   }
 
   static showCurrentDiceRoll(diceRoll) {
@@ -107,6 +115,12 @@ class Board {
   static resetCurrentDiceRoll() {
     const diceRollElem = document.getElementById("current-dice-roll");
     diceRollElem.innerHTML = Dice.getDiceFaceHtml(0);
+  }
+
+  static get currentPlayerDisplayName() {
+    return capitalize(
+      Board.currentPlayer.playerId
+    );
   }
 
   get dice() {
@@ -147,12 +161,15 @@ class Board {
     this.#initializeSnakes();
     this.#initializeLadders();
     this.#initializePlayers();
+    Logger.addLoggerEntry("Game is ready to be played");
+    Logger.addLoggerEntry(`${Board.currentPlayerDisplayName} player's turn, ${Board.currentPlayerDisplayName} player can roll the die`);
   }
 
   #initializeNodes() {
     for (var i = 0; i < 100; i++) {
       Board.nodes.push(new Node());
     }
+    Logger.addLoggerEntry("Initialized Nodes");
   }
 
   #initializeSnakes() {
@@ -161,6 +178,7 @@ class Board {
       const headNode = Board.nodes[head - 1];
       headNode.setSnake(new Snake(head, tail));
     });
+    Logger.addLoggerEntry("Initialized Snakes");
   }
 
   #initializeLadders() {
@@ -169,6 +187,7 @@ class Board {
       const bottomNode = Board.nodes[bottom - 1];
       bottomNode.setLadder(new Ladder(top, bottom));
     });
+    Logger.addLoggerEntry("Initialized Ladders");
   }
 
   #initializePlayers() {
@@ -178,13 +197,12 @@ class Board {
       const parser = new DOMParser();
       const elem = this.#possiblePlayers[i];
       const encodedSvgBackground = window.btoa(`<svg xmlns="http://www.w3.org/2000/svg" style="enable-background:new 0 0 536.124 536.125" xml:space="preserve" viewBox="117.75 0 300.61 536.13" fill="${elem}"><path d="M405.053 424.399h-35.92L334.514 216.71c7.294-.686 13.01-6.762 13.01-14.236 0-3.759-1.483-7.167-3.854-9.726 21.964-20.924 34.678-49.996 34.678-80.895C378.348 50.17 328.166 0 266.493 0c-61.679 0-111.847 50.165-111.847 111.846 0 30.574 12.557 59.572 34.25 80.496a14.335 14.335 0 0 0-4.188 10.131c0 7.22 5.337 13.134 12.262 14.162l-30.869 207.764h-35.03c-7.35 0-13.317 5.964-13.317 13.323 0 7.353 5.961 13.305 13.317 13.305h.029v78.253a6.846 6.846 0 0 0 6.845 6.845h260.233a6.842 6.842 0 0 0 6.845-6.845v-78.253h.029c7.353 0 13.317-5.952 13.317-13.305.001-7.359-5.951-13.323-13.316-13.323zM184.726 124.691a5.964 5.964 0 0 1-1.132.097 6.857 6.857 0 0 1-6.747-5.722c-.109-.647-10.078-65.881 62.692-91.472 3.558-1.253 7.474.63 8.733 4.194 1.253 3.558-.623 7.471-4.188 8.724-62.04 21.817-54.092 74.083-53.723 76.305a6.851 6.851 0 0 1-5.635 7.874zm10.938 276.55 25.679-152.38c.783-4.66 5.19-7.814 9.862-7.01a8.547 8.547 0 0 1 7.019 9.859l-25.68 152.374c-.703 4.179-4.33 7.141-8.432 7.141-.473 0-.952-.036-1.427-.125-4.668-.792-7.807-5.208-7.021-9.859z"/></svg>`);
-      const htmlString = `<div id="${elem}-player" class="player ${elem}-player"></div>`;
-      const playerElem = parser.parseFromString(htmlString, "text/html").body
-        .firstChild;
+      const playerElem = htmlElemFromString(`<div id="${elem}-player" class="player ${elem}-player"></div>`);
       playerElem.style.backgroundImage = `url(data:image/svg+xml;base64,${encodedSvgBackground})`;
       Board.players.push(new Player(elem, 0));
       document.getElementById("initial-spacer-div").appendChild(playerElem);
     }
+    Logger.addLoggerEntry("Initialized Players");
     Board.currentPlayer = Board.players[0];
     Board.showCurrentTurnText();
   }
@@ -290,7 +308,8 @@ class Player {
     const playerWon = Board.currentPlayer.currentPosition === 100;
 
     if (playerWon) {
-      alert(`${capitalize(Board.currentPlayer.playerId)} Wins`);
+      Logger.addLoggerEntry(`Congratulations ${Board.currentPlayerDisplayName} player! You won the game`);
+      alert(`Congratulations ${capitalize(Board.currentPlayer.playerId)} player Wins! You won the game`);
       window.location.reload();
     }
 
@@ -300,7 +319,9 @@ class Player {
       const nextIndex = (currentIndex + 1) % Board.players.length;
       Board.currentPlayer = Board.players[nextIndex];
       Board.showCurrentTurnText();
+      Logger.addLoggerEntry("Switching Turn");
     }
+    Logger.addLoggerEntry(`${Board.currentPlayerDisplayName} player's turn, ${Board.currentPlayerDisplayName} player can roll the die`);
 
     Board.resetCurrentDiceRoll();
     Board.disableControls = false;
@@ -308,6 +329,7 @@ class Player {
 
   moveUponDiceRoll(diceRoll) {
     Board.showCurrentDiceRoll(diceRoll);
+    Logger.addLoggerEntry(`Die rolled ${diceRoll}`);
 
     const playerFirstDiceRoll = this.#currentPosition === 0;
     const diceRollOverflowsBoard = this.#currentPosition + diceRoll > 100;
@@ -320,9 +342,17 @@ class Player {
     }
 
     if (diceRollOverflowsBoard) {
+      Logger.addLoggerEntry(`Die rolled ${diceRoll}. Die roll overflow, can't move ahead. ${Board.currentPlayerDisplayName} needs ${100 - this.#currentPosition} to win the game`);
+      if (shouldGetDoubleChance) {
+        Logger.addLoggerEntry(`Die rolled ${diceRoll}, ${Board.currentPlayerDisplayName} gets an extra die roll`);
+        this.#updatePlayerTurn(this.#playerId, false);
+        return;
+      }
       this.#updatePlayerTurn(this.#playerId);
       return;
     }
+
+    Logger.addLoggerEntry(`${Board.currentPlayerDisplayName} is moving on the board`);
 
     let counter = 0;
     let looper = setInterval(() => {
@@ -337,6 +367,7 @@ class Player {
 
         // Post movement checks
         if (currentNode.hasSnakeHead()) {
+          Logger.addLoggerEntry(`Aww, ${Board.currentPlayerDisplayName} got bit by a snake`);
           this.#currentPosition = currentNode.snake.tail;
           this.#updatePlayerTurn(this.#playerId);
           setTimeout(() => {
@@ -346,6 +377,7 @@ class Player {
         }
 
         if (currentNode.hasLadderBottom()) {
+          Logger.addLoggerEntry(`${Board.currentPlayerDisplayName} climbed a ladder, gets an extra die roll`);
           this.#currentPosition = currentNode.ladder.top;
           this.#updatePlayerTurn(this.#playerId, false);
           setTimeout(() => {
@@ -355,6 +387,7 @@ class Player {
         }
 
         if (shouldGetDoubleChance) {
+          Logger.addLoggerEntry(`Die rolled ${diceRoll}, ${Board.currentPlayerDisplayName} gets an extra die roll`);
           this.#updatePlayerTurn(this.#playerId, false);
           return;
         }
@@ -400,6 +433,12 @@ class Player {
       y: boardNodeUIpx * row + verticalOffset,
     };
   }
+}
+
+function htmlElemFromString(htmlString) {
+  const parser = new DOMParser();
+  return parser.parseFromString(htmlString, "text/html").body
+    .firstChild;
 }
 
 function capitalize(string) {
