@@ -9,3 +9,4 @@ Game class should be there which can maintain current player, disable controls, 
 showCurrentDiceRoll, resetCurrentDiceRoll should be in dice instance
 
 Add a logger to the RHS, what's happening in the game.
+Change the snakeboard to make it random.

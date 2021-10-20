@@ -2,27 +2,30 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Snake & Ladders Game</title>
+    <title>Snakes & Ladders</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="./index.css">
   </head>
   <body>
-    <div id="add-players-step" class="d-flex flex-column align-items-center justify-content-center add-players-step">
-      <h1 class="bottom-20">Welcome to Snakes & Ladders</h1>
-      <div>
-        <input type="text" id="player-count" class="padding-20" name="player-count" value="" placeholder="Enter the number of players to play the game">
-        <button id="start-game" class="padding-20 left-10" type="button" name="start-game">
-          Start Game
-        </button>
+    <div id="add-players-step" class="d-flex align-items-center justify-content-center add-players-step">
+      <div class="padding-40 bg-white d-flex flex-column align-items-center justify-content-center" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+        <h1 class="title bottom-20">Welcome to Snakes & Ladders</h1>
+        <div class="d-flex">
+          <input type="text" id="player-count" class="input is-medium is-primary" name="player-count" value="" placeholder="Enter the number of players">
+          <button id="start-game" class="button is-primary is-medium left-10" type="button" name="start-game">
+            Start Game
+          </button>
+        </div>
       </div>
     </div>
     <div id="snake-game-step" class="snake-game-step hide">
       <div class="position-relative d-flex bottom-20 snake-board-wrapper">
         <div id="snake-board" class="d-flex position-relative snake-board">
-          <img src="./snake-and-ladders.jpg" alt="Snake & Ladders Board">
+          <img src="./images/snake-and-ladders.jpg" alt="Snake & Ladders Board">
         </div>
         <div class="left-10">
-          <h3 id="current-player-turn"></h3>
-          <h1 class="bottom-20">Press spacebar to roll dice</h1>
+          <h1 class="title is-2 is-spaced">Press spacebar to roll dice</h1>
+          <h3 id="current-player-turn" class="subtitle is-4"></h3>
           <span id="current-dice-roll" class="hide"></span>
         </div>
       </div>

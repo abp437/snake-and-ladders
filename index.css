@@ -3,10 +3,6 @@
     padding: 0;
 }
 
-.top-10 {
-  margin-top: 10px;
-}
-
 .left-10 {
   margin-left: 10px;
 }
@@ -15,16 +11,12 @@
   margin-bottom: 20px;
 }
 
-.padding-20 {
-  padding: 20px;
+.padding-40 {
+  padding: 40px;
 }
 
 .position-relative {
   position: relative;
-}
-
-.position-absolute {
-  position: absolute;
 }
 
 .d-flex {
@@ -47,8 +39,14 @@
   display: none;
 }
 
+.bg-white {
+  background: #fff;
+}
+
 .add-players-step {
   height: 100vh;
+  background-image: url("images/background.png");
+  background-size: cover;
 }
 
 .snake-game-step {
@@ -56,43 +54,24 @@
 }
 
 .player {
-  width: 30px;
-  height: 53px;
-  background-image: url(pawn.png);
-  background-size: 30px;
-  background-repeat: no-repeat;
+  width: 22px;
+  height: 39px;
+  background-size: 22px;
 }
 
 .snake-board .player {
   position: absolute;
-  bottom: 4px;
-  left: 15px;
-}
-
-.red-player {
-  background-color: red;
-}
-
-.blue-player {
-  background-color: #00bcd4;
-}
-
-.white-player {
-  background-color: white;
-}
-
-.salmon-player {
-  background-color: salmon;
+  bottom: 11px;
+  left: 19px;
 }
 
 /* Dice */
 .dice {
-  padding: 4px;
+  padding: 16px;
   background-color: tomato;
-  width: 104px;
-  height: 104px;
+  width: 120px;
+  height: 120px;
   border-radius: 10%;
-  margin-right : 10px;
 }
 
 .dot {
@@ -100,7 +79,7 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background-color:white;
+  background-color: #fff;
 }
 
 .first-face {
@@ -138,14 +117,14 @@
   justify-content: space-between;
 }
 
-.fourth-face .column,
-.sixth-face .column,
-.fifth-face .column {
+.fourth-face .dice-column,
+.sixth-face .dice-column,
+.fifth-face .dice-column {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.fifth-face .column:nth-of-type(2) {
+.fifth-face .dice-column:nth-of-type(2) {
   justify-content: center;
 }
