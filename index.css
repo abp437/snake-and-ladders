@@ -1,46 +1,13 @@
-* {
-    margin: 0;
-    padding: 0;
+.width-100 {
+  width: 100%;
 }
 
-.left-10 {
-  margin-left: 10px;
-}
-
-.bottom-20 {
-  margin-bottom: 20px;
-}
-
-.padding-40 {
-  padding: 40px;
+.max-width-100 {
+  max-width: 100%;
 }
 
 .position-relative {
   position: relative;
-}
-
-.d-flex {
-  display: flex;
-}
-
-.flex-column {
-  flex-direction: column;
-}
-
-.align-items-center {
-  align-items: center;
-}
-
-.justify-content-center {
-  justify-content: center;
-}
-
-.hide {
-  display: none;
-}
-
-.bg-white {
-  background: #fff;
 }
 
 .add-players-step {
@@ -49,14 +16,28 @@
   background-size: cover;
 }
 
+.logger-wrapper {
+  max-width: 400px;
+  border-left: 1px solid #f5f5f5;
+}
+
+.logger {
+  height: calc(100vh - 150px);
+  overflow-y: auto;
+}
+
 .snake-game-step {
-  margin: 20px;
+  padding: 20px;
 }
 
 .player {
   width: 22px;
   height: 39px;
   background-size: 22px;
+}
+
+.initial-spacer-div .player {
+  margin: 0 5px;
 }
 
 .snake-board .player {

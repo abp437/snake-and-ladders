@@ -7,29 +7,36 @@
     <link rel="stylesheet" href="./index.css">
   </head>
   <body>
-    <div id="add-players-step" class="d-flex align-items-center justify-content-center add-players-step">
-      <div class="padding-40 bg-white d-flex flex-column align-items-center justify-content-center" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
-        <h1 class="title bottom-20">Welcome to Snakes & Ladders</h1>
-        <div class="d-flex">
+    <div id="add-players-step" class="is-flex is-align-items-center is-justify-content-center add-players-step">
+      <div class="p-5 has-background-white is-flex is-flex-direction-column is-align-items-center is-justify-content-center" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+        <h1 class="title">Welcome to Snakes & Ladders</h1>
+        <div class="is-flex">
           <input type="text" id="player-count" class="input is-medium is-primary" name="player-count" value="" placeholder="Enter the number of players">
-          <button id="start-game" class="button is-primary is-medium left-10" type="button" name="start-game">
+          <button id="start-game" class="button is-primary is-medium ml-3" type="button" name="start-game">
             Start Game
           </button>
         </div>
       </div>
     </div>
-    <div id="snake-game-step" class="snake-game-step hide">
-      <div class="position-relative d-flex bottom-20 snake-board-wrapper">
-        <div id="snake-board" class="d-flex position-relative snake-board">
-          <img src="./images/snake-and-ladders.jpg" alt="Snake & Ladders Board">
+    <div id="snake-game-step" class="snake-game-step is-hidden">
+      <div class="position-relative is-flex snake-board-wrapper">
+        <div>
+          <div id="snake-board" class="is-flex position-relative mb-3 snake-board">
+            <img src="./images/snake-and-ladders.jpg" alt="Snake & Ladders Board">
+          </div>
+          <div id="initial-spacer-div" class="is-flex initial-spacer-div"></div>
         </div>
-        <div class="left-10">
+        <div class="ml-3">
           <h1 class="title is-2 is-spaced">Press spacebar to roll dice</h1>
           <h3 id="current-player-turn" class="subtitle is-4"></h3>
-          <span id="current-dice-roll" class="hide"></span>
+          <span id="current-dice-roll" class="is-hidden"></span>
+        </div>
+        <div class="ml-auto width-100 logger-wrapper">
+          <h1 class="has-text-centered title">Game Log</h1>
+          <hr />
+          <div id="logger" class="logger"></div>
         </div>
       </div>
-      <div id="initial-spacer-div" class="d-flex"></div>
     </div>
     <script src="./index.js" charset="utf-8"></script>
   </body>

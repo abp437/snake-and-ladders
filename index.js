@@ -100,7 +100,7 @@ class Board {
 
   static showCurrentDiceRoll(diceRoll) {
     const diceRollElem = document.getElementById("current-dice-roll");
-    diceRollElem.classList.remove("hide");
+    diceRollElem.classList.remove("is-hidden");
     diceRollElem.innerHTML = Dice.getDiceFaceHtml(diceRoll);
   }
 
@@ -442,8 +442,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize the number of players
     snakeBoard = new Board(playerCount);
 
-    document.getElementById("add-players-step").classList.add("hide");
-    document.getElementById("snake-game-step").classList.remove("hide");
+    document.getElementById("add-players-step").classList.add("is-hidden");
+    document.getElementById("snake-game-step").classList.remove("is-hidden");
   });
 
   document.body.onkeyup = (e) => {
