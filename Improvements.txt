@@ -1,12 +1,21 @@
-setSnake and setLadder shouldn't be there, it should be in constructor
+Technical:
 Make the possiblePlayers array private - Done
+setSnake and setLadder shouldn't be there, it should be in constructor
 Make nodes and players instance variables
 updatePlayerTurn should have been in Board class
 moveUponDiceRoll should have been in Board class
-
-Game class should be there which can maintain current player, disable controls, showCurrentTurnText
-
 showCurrentDiceRoll, resetCurrentDiceRoll should be in dice instance
+Game class should be there which can maintain current player, disable controls, showCurrentTurnText
+Remove private fields from the App to play it in Firefox - Important
+Code restructure properly - Important
 
-Add a logger to the RHS, what's happening in the game.
-Change the snakeboard to make it random.
+Features:
+Add a logger to the RHS, what's happening in the game. - Done
+Add font awesome icons for pawns.
+Change the snakeboard to make it random/ability to choose a snake board.
+V/S Computer mode for single player.
+Ability to choose your own name, pawn icon, color - Chess Icons/Animal heads.
+Audio support for Game logs.
+Add support for Blind people.
+Real time remote Multiplayer support
+Real time Visitors can watch a match
