@@ -7,7 +7,7 @@ moveUponDiceRoll should have been in Board class
 showCurrentDiceRoll, resetCurrentDiceRoll should be in dice instance
 Game class should be there which can maintain current player, disable controls, showCurrentTurnText
 Remove private fields from the App to play it in Firefox - Important
-Code restructure properly - Important
+Code restructure properly (Add webpack for bundling) - Important
 
 Features:
 Add a logger to the RHS, what's happening in the game. - Done
