@@ -28,8 +28,13 @@
 
 .player {
   width: 22px;
-  height: 39px;
+  height: 35px;
   background-size: 22px;
+}
+
+.player .fas {
+  font-size: 36px;
+  text-shadow: 6px 2px 8px #000;
 }
 
 .initial-spacer-div .player {

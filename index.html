@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <title>Snakes & Ladders</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+      integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./index.css">
   </head>
   <body>
@@ -20,7 +23,7 @@
     </div>
     <div id="snake-game-step" class="snake-game-step is-hidden">
       <div class="position-relative is-flex snake-board-wrapper">
-        <div>
+        <div class="is-flex-shrink-0">
           <div id="snake-board" class="is-flex position-relative mb-3 snake-board">
             <img src="./images/snake-and-ladders.jpg" alt="Snake & Ladders Board">
           </div>
@@ -31,7 +34,7 @@
           <h3 id="current-player-turn" class="subtitle is-4"></h3>
           <span id="current-dice-roll" class="is-hidden"></span>
         </div>
-        <div class="ml-auto width-100 logger-wrapper">
+        <div class="ml-auto is-flex-shrink-0 width-100 logger-wrapper">
           <h1 class="has-text-centered title">Game Log</h1>
           <hr />
           <div id="logger" class="p-2 logger"></div>
