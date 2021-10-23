@@ -450,6 +450,15 @@ function isSpacebarPressed(e) {
   return e.keyCode === 32;
 }
 
+function selectBoard(boardsList, event) {
+  const selectedBoard = document.getElementById("selected-board");
+  boardsList.forEach((elem) => {
+    elem.classList.remove("selected");
+  });
+  selectedBoard.value = event.currentTarget.getAttribute("data-board");
+  event.currentTarget.classList.add("selected");
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   let snakeBoard = null;
 
@@ -476,10 +485,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Initialize the number of players
-    snakeBoard = new Board(playerCount);
+    snakeBoard = new Board(playerCount, document.getElementById("selected-board").value);
 
     document.getElementById("game-init-step").classList.add("is-hidden");
     document.getElementById("snake-game-step").classList.remove("is-hidden");
+  });
+
+  const boardsList = Array.from(
+    document.getElementsByClassName("board-container")
+  );
+
+  boardsList.forEach((elem) => {
+    elem.addEventListener("click", selectBoard.bind(null, boardsList));
   });
 
   document.body.onkeyup = (e) => {
