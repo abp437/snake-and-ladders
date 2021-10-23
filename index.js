@@ -478,7 +478,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize the number of players
     snakeBoard = new Board(playerCount);
 
-    document.getElementById("add-players-step").classList.add("is-hidden");
+    document.getElementById("game-init-step").classList.add("is-hidden");
     document.getElementById("snake-game-step").classList.remove("is-hidden");
   });
 

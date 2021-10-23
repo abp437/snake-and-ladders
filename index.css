@@ -6,8 +6,8 @@
   position: relative;
 }
 
-.add-players-step {
-  height: 100vh;
+.game-init-step {
+  min-height: 100vh;
   background-image: url("images/background.png");
   background-size: cover;
 }
@@ -26,15 +26,24 @@
   padding: 20px;
 }
 
-.player {
-  width: 22px;
-  height: 35px;
-  background-size: 22px;
+.selected {
+  position: relative;
+}
+
+.selected::after {
+  color: #00d1b2;
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 22px;
+  content: "\f058";
+  position: absolute;
+  top: -0;
+  right: 4px;
 }
 
 .player .fas {
-  font-size: 36px;
-  text-shadow: 6px 2px 8px #000;
+  font-size: 42px;
+  text-shadow: 6px 2px 8px grey;
 }
 
 .initial-spacer-div .player {
