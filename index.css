@@ -26,12 +26,16 @@
   padding: 20px;
 }
 
+.board-container:hover {
+  box-shadow: 0 0 12px #23d160;
+}
+
 .selected {
   position: relative;
 }
 
 .selected::after {
-  color: #00d1b2;
+  color: #23d160;
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
   font-size: 22px;

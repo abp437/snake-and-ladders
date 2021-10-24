@@ -88,6 +88,24 @@ class Logger {
   }
 }
 
+// class Game {
+//   #possibleBoards;
+
+//   constructor(playerCount, boardName) {
+//     this.#possibleBoards = ["easy", "medium", "difficult", "classic", "rockets", "dragons"];
+//   }
+
+//   constructBoard() {
+//     const boardNameList = boardName.join();
+//     if (boardNameList.indexOf(boardName) === -1) {
+//       alert("Invalid Board");
+//       throw new Error("Invalid Board");
+//     }
+
+//     new Board(playerCount);
+//   }
+// }
+
 class Board {
   #playerCount;
   #possiblePlayers;
