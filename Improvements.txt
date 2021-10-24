@@ -12,8 +12,8 @@ Code restructure properly (Add webpack for bundling) - Important
 Features:
 Add a logger to the RHS, what's happening in the game - Done
 Add font awesome icons for pawns - Done
-Change the snakeboard to make it random/ability to choose a snake board
-Add Timer
+Change the snakeboard to make it random/ability to choose a snake board - Partly done(2 boards remain)
+Add Timer - Done
 V/S Computer mode for single player
 Ability to choose your own name, pawn icon, color - Chess Icons/Animal heads
 Audio support for Game logs
