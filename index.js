@@ -24,8 +24,8 @@ const availableBoards = {
       rowSize: 10,
       rowCount: 10,
       nodeSizeInPx: 61,
-      verticalOffsetInPx: 0,
-      horizontalOffsetInPx: 0,
+      verticalOffsetInPx: 11,
+      horizontalOffsetInPx: 19,
     },
     snakesList: [
       { head: 38, tail: 20 },
@@ -47,8 +47,8 @@ const availableBoards = {
       rowSize: 10,
       rowCount: 10,
       nodeSizeInPx: 59,
-      verticalOffsetInPx: 2,
-      horizontalOffsetInPx: 2,
+      verticalOffsetInPx: 13,
+      horizontalOffsetInPx: 23,
     },
     snakesList: [
       { head: 17, tail: 7 },
@@ -106,8 +106,8 @@ const availableBoards = {
       rowSize: 10,
       rowCount: 10,
       nodeSizeInPx: 61,
-      verticalOffsetInPx: 0,
-      horizontalOffsetInPx: 0,
+      verticalOffsetInPx: 10,
+      horizontalOffsetInPx: 16,
     },
     snakesList: [
       { head: 43, tail: 17 },
@@ -136,8 +136,8 @@ const availableBoards = {
       rowSize: 10,
       rowCount: 10,
       nodeSizeInPx: 60,
-      verticalOffsetInPx: 0,
-      horizontalOffsetInPx: 1,
+      verticalOffsetInPx: 11,
+      horizontalOffsetInPx: 19,
     },
     snakesList: [
       { head: 30, tail: 16 },
@@ -349,7 +349,7 @@ class Board {
     for (let i = 0; i < this.#playerCount; i++) {
       const elem = this.#possiblePlayers[i];
       const playerElem = Util.htmlElemFromString(`<div id="${elem}-player" class="player ${elem}-player" style="color: ${elem};"><i class="fas fa-chess-pawn"></i></div>`);
-      Board.players.push(new Player(elem, 0));
+      Board.players.push(new Player(elem, 0, this.#boardData.uiSpecs));
       document.getElementById("initial-spacer-div").appendChild(playerElem);
     }
     Logger.addLoggerEntry("Initialized Players");
@@ -429,12 +429,14 @@ class Ladder {
 }
 
 class Player {
-  #playerId;
+  #boardUiSpecs;;
   #currentPosition;
+  #playerId;
   #movementTime;
 
-  constructor(playerId, currentPosition) {
+  constructor(playerId, currentPosition, boardUiSpecs) {
     this.#movementTime = 500;
+    this.#boardUiSpecs = boardUiSpecs;
     this.#playerId = playerId;
     this.#currentPosition = currentPosition;
   }
@@ -548,12 +550,9 @@ class Player {
   }
 
   #calculateUIPosition(position) {
-    const rowSize = 10;
+    const { horizontalOffsetInPx, nodeSizeInPx, rowSize, verticalOffsetInPx, } = this.#boardUiSpecs;
     const isRowEndNode = (p) => p % rowSize === 0;
     const isEvenRow = (r) => r % 2 === 0;
-    const boardNodeUIpx = 61;
-    const horizontalOffset = 19;
-    const verticalOffset = 11;
     let row, column;
 
     if (isRowEndNode(position)) {
@@ -579,8 +578,8 @@ class Player {
     }
 
     return {
-      x: boardNodeUIpx * column + horizontalOffset,
-      y: boardNodeUIpx * row + verticalOffset,
+      x: nodeSizeInPx * column + horizontalOffsetInPx,
+      y: nodeSizeInPx * row + verticalOffsetInPx,
     };
   }
 }
