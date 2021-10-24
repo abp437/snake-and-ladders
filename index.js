@@ -80,7 +80,7 @@ class Dice {
 
 class Logger {
   static addLoggerEntry(message) {
-    const loggerEntry = htmlElemFromString(`<p class="is-family-monospace mb-2"><span class="has-text-weight-semibold">Bot:</span><span class="ml-3">${message}</span></p>`),
+    const loggerEntry = Util.htmlElemFromString(`<p class="is-family-monospace mb-2"><span class="has-text-weight-semibold">Bot:</span><span class="ml-3">${message}</span></p>`),
       loggerElem = document.getElementById("logger");
 
     loggerElem.appendChild(loggerEntry);
@@ -136,7 +136,7 @@ class Board {
   }
 
   static get currentPlayerDisplayName() {
-    return capitalize(
+    return Util.capitalize(
       Board.currentPlayer.playerId
     );
   }
@@ -209,11 +209,11 @@ class Board {
   }
 
   #initializePlayers() {
-    shuffleArray(this.#possiblePlayers);
+    Util.shuffleArray(this.#possiblePlayers);
 
     for (let i = 0; i < this.#playerCount; i++) {
       const elem = this.#possiblePlayers[i];
-      const playerElem = htmlElemFromString(`<div id="${elem}-player" class="player ${elem}-player" style="color: ${elem};"><i class="fas fa-chess-pawn"></i></div>`);
+      const playerElem = Util.htmlElemFromString(`<div id="${elem}-player" class="player ${elem}-player" style="color: ${elem};"><i class="fas fa-chess-pawn"></i></div>`);
       Board.players.push(new Player(elem, 0));
       document.getElementById("initial-spacer-div").appendChild(playerElem);
     }
@@ -324,7 +324,7 @@ class Player {
 
     if (playerWon) {
       Logger.addLoggerEntry(`Congratulations ${Board.currentPlayerDisplayName} player! You won the game`);
-      alert(`Congratulations ${capitalize(Board.currentPlayer.playerId)} player Wins! You won the game`);
+      alert(`Congratulations ${Util.capitalize(Board.currentPlayer.playerId)} player Wins! You won the game`);
       window.location.reload();
     }
 
@@ -450,22 +450,26 @@ class Player {
   }
 }
 
-function htmlElemFromString(htmlString) {
-  const parser = new DOMParser();
-  return parser.parseFromString(htmlString, "text/html").body
-    .firstChild;
-}
+class Util {
+  static spacebarKeyCode = 32;
 
-function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+  static htmlElemFromString(htmlStr) {
+    const parser = new DOMParser();
+    return parser.parseFromString(htmlStr, "text/html").body
+      .firstChild;
+  }
 
-function shuffleArray(array) {
-  array.sort(() => Math.random() - 0.5);
-}
+  static capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
-function isSpacebarPressed(e) {
-  return e.keyCode === 32;
+  static shuffleArray(arr) {
+    arr.sort(() => Math.random() - 0.5);
+  }
+
+  static isSpacebarPressed(e) {
+    return e.keyCode === this.spacebarKeyCode;
+  }
 }
 
 function selectBoard(boardsList, event) {
@@ -519,7 +523,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.onkeyup = (e) => {
     // Fire upon spacebar press
-    if (isSpacebarPressed(e)) {
+    if (Util.isSpacebarPressed(e)) {
       if (Board.disableControls) {
         return;
       }

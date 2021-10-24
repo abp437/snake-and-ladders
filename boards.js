@@ -1,4 +1,11 @@
 const easyBoard = {
+  uiSpecs: {
+    rowSize: 5,
+    rowCount: 5,
+    nodeSizeInPx: 90,
+    verticalOffsetInPx: 36,
+    horizontalOffsetInPx: 40,
+  },
   snakesList: [
     { head: 6, tail: 4 },
     { head: 20, tail: 9 },
@@ -12,6 +19,13 @@ const easyBoard = {
 };
 
 const mediumBoard = {
+  uiSpecs: {
+    rowSize: 10,
+    rowCount: 10,
+    nodeSizeInPx: 61,
+    verticalOffsetInPx: 0,
+    horizontalOffsetInPx: 0,
+  },
   snakesList: [
     { head: 38, tail: 20 },
     { head: 51, tail: 10 },
@@ -28,6 +42,13 @@ const mediumBoard = {
 };
 
 const difficultBoard = {
+  uiSpecs: {
+    rowSize: 10,
+    rowCount: 10,
+    nodeSizeInPx: 59,
+    verticalOffsetInPx: 2,
+    horizontalOffsetInPx: 2,
+  },
   snakesList: [
     { head: 17, tail: 7 },
     { head: 54, tail: 34 },
@@ -51,6 +72,13 @@ const difficultBoard = {
 };
 
 const classicBoard = {
+  uiSpecs: {
+    rowSize: 10,
+    rowCount: 10,
+    nodeSizeInPx: 61,
+    verticalOffsetInPx: 11,
+    horizontalOffsetInPx: 19,
+  },
   snakesList: [
     { head: 40, tail: 3 },
     { head: 43, tail: 18 },
@@ -73,6 +101,13 @@ const classicBoard = {
 };
 
 const rocketsBoard = {
+  uiSpecs: {
+    rowSize: 10,
+    rowCount: 10,
+    nodeSizeInPx: 61,
+    verticalOffsetInPx: 0,
+    horizontalOffsetInPx: 0,
+  },
   snakesList: [
     { head: 43, tail: 17 },
     { head: 50, tail: 5 },
@@ -96,6 +131,13 @@ const rocketsBoard = {
 
 // This board has a special case at position 98, it has snake's head at the ladder's top
 const dragonsBoard = {
+  uiSpecs: {
+    rowSize: 10,
+    rowCount: 10,
+    nodeSizeInPx: 60,
+    verticalOffsetInPx: 0,
+    horizontalOffsetInPx: 1,
+  },
   snakesList: [
     { head: 30, tail: 16 },
     { head: 37, tail: 3 },
