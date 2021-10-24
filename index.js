@@ -233,6 +233,17 @@ class Dice {
     return diceFaceHtml.replace(/(\r\n|\n|\r|\t)/gm, "");
   }
 
+  static showCurrentDiceRoll(diceRoll) {
+    const diceRollElem = document.getElementById("current-dice-roll");
+    diceRollElem.classList.remove("is-hidden");
+    diceRollElem.innerHTML = Dice.getDiceFaceHtml(diceRoll);
+  }
+
+  static resetCurrentDiceRoll() {
+    const diceRollElem = document.getElementById("current-dice-roll");
+    diceRollElem.innerHTML = Dice.getDiceFaceHtml(0);
+  }
+
   // Returns a random number from 1 to 6
   rollDice() {
     return Math.floor(Math.random() * 6) + 1;
@@ -249,23 +260,29 @@ class Logger {
   }
 }
 
-// class Game {
-//   #possibleBoards;
+class Game {
+  //   #possibleBoards;
 
-//   constructor(playerCount, boardName) {
-//     this.#possibleBoards = ["easy", "medium", "difficult", "classic", "rockets", "dragons"];
-//   }
+  static disableControls = false;
 
-//   constructBoard() {
-//     const boardNameList = boardName.join();
-//     if (boardNameList.indexOf(boardName) === -1) {
-//       alert("Invalid Board");
-//       throw new Error("Invalid Board");
-//     }
+  static showCurrentTurnText() {
+    document.getElementById("current-player-turn").textContent = `${Board.currentPlayerDisplayName} player's turn`;
+  }
 
-//     new Board(playerCount);
-//   }
-// }
+  //   constructor(playerCount, boardName) {
+  //     this.#possibleBoards = ["easy", "medium", "difficult", "classic", "rockets", "dragons"];
+  //   }
+
+  //   constructBoard() {
+  //     const boardNameList = boardName.join();
+  //     if (boardNameList.indexOf(boardName) === -1) {
+  //       alert("Invalid Board");
+  //       throw new Error("Invalid Board");
+  //     }
+
+  //     new Board(playerCount);
+  //   }
+}
 
 class Board {
   #playerCount;
@@ -275,26 +292,9 @@ class Board {
 
   static currentPlayer = null;
 
-  static disableControls = false;
-
   static players = [];
 
   static nodes = [];
-
-  static showCurrentTurnText() {
-    document.getElementById("current-player-turn").textContent = `${Board.currentPlayerDisplayName} player's turn`;
-  }
-
-  static showCurrentDiceRoll(diceRoll) {
-    const diceRollElem = document.getElementById("current-dice-roll");
-    diceRollElem.classList.remove("is-hidden");
-    diceRollElem.innerHTML = Dice.getDiceFaceHtml(diceRoll);
-  }
-
-  static resetCurrentDiceRoll() {
-    const diceRollElem = document.getElementById("current-dice-roll");
-    diceRollElem.innerHTML = Dice.getDiceFaceHtml(0);
-  }
 
   static get currentPlayerDisplayName() {
     return Util.capitalize(
@@ -380,7 +380,7 @@ class Board {
     }
     Logger.addLoggerEntry("Initialized Players");
     Board.currentPlayer = Board.players[0];
-    Board.showCurrentTurnText();
+    Game.showCurrentTurnText();
   }
 }
 
@@ -494,17 +494,17 @@ class Player {
       const currentIndex = boardPlayerIds.indexOf(playerId);
       const nextIndex = (currentIndex + 1) % Board.players.length;
       Board.currentPlayer = Board.players[nextIndex];
-      Board.showCurrentTurnText();
+      Game.showCurrentTurnText();
       Logger.addLoggerEntry("Switching Turn");
     }
     Logger.addLoggerEntry(`${Board.currentPlayerDisplayName} player's turn, ${Board.currentPlayerDisplayName} player can roll the die`);
 
-    Board.resetCurrentDiceRoll();
-    Board.disableControls = false;
+    Dice.resetCurrentDiceRoll();
+    Game.disableControls = false;
   }
 
   moveUponDiceRoll(diceRoll) {
-    Board.showCurrentDiceRoll(diceRoll);
+    Dice.showCurrentDiceRoll(diceRoll);
     Logger.addLoggerEntry(`Die rolled ${diceRoll}`);
 
     const playerFirstDiceRoll = this.#currentPosition === 0;
@@ -672,6 +672,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("game-init-step").classList.add("is-hidden");
     document.getElementById("snake-game-step").classList.remove("is-hidden");
+    document.getElementById("snake-game-step").classList.add(`${document.getElementById("selected-board").value}-snake-board`);
   });
 
   const boardsList = Array.from(
@@ -685,11 +686,11 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.onkeyup = (e) => {
     // Fire upon spacebar press
     if (Util.isSpacebarPressed(e)) {
-      if (Board.disableControls) {
+      if (Game.disableControls) {
         return;
       }
 
-      Board.disableControls = true;
+      Game.disableControls = true;
       Board.currentPlayer.moveUponDiceRoll(snakeBoard.dice.rollDice());
     }
   }
