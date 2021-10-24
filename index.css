@@ -54,6 +54,10 @@
   margin: 0 5px;
 }
 
+.snake-board {
+  max-width: 612px;
+}
+
 .snake-board .player {
   position: absolute;
   bottom: 11px;

@@ -261,34 +261,18 @@ class Logger {
 }
 
 class Game {
-  //   #possibleBoards;
-
   static disableControls = false;
 
   static showCurrentTurnText() {
     document.getElementById("current-player-turn").textContent = `${Board.currentPlayerDisplayName} player's turn`;
   }
-
-  //   constructor(playerCount, boardName) {
-  //     this.#possibleBoards = ["easy", "medium", "difficult", "classic", "rockets", "dragons"];
-  //   }
-
-  //   constructBoard() {
-  //     const boardNameList = boardName.join();
-  //     if (boardNameList.indexOf(boardName) === -1) {
-  //       alert("Invalid Board");
-  //       throw new Error("Invalid Board");
-  //     }
-
-  //     new Board(playerCount);
-  //   }
 }
 
 class Board {
+  #boardData;
+  #boardName;
   #playerCount;
   #possiblePlayers;
-  #snakesList;
-  #laddersList;
 
   static currentPlayer = null;
 
@@ -314,28 +298,12 @@ class Board {
     return Board.players;
   }
 
-  constructor(playerCount) {
+  constructor(playerCount, boardName) {
     this.#playerCount = playerCount;
+    this.#boardData = availableBoards[boardName];
+    this.#boardName = boardName;
     this.#possiblePlayers = ["beige", "black", "greenyellow", "salmon"];
-    this.#snakesList = [
-      { head: 40, tail: 3 },
-      { head: 43, tail: 18 },
-      { head: 27, tail: 5 },
-      { head: 54, tail: 31 },
-      { head: 66, tail: 45 },
-      { head: 76, tail: 58 },
-      { head: 89, tail: 53 },
-      { head: 99, tail: 41 },
-    ];
-    this.#laddersList = [
-      { bottom: 4, top: 25 },
-      { bottom: 13, top: 46 },
-      { bottom: 33, top: 49 },
-      { bottom: 42, top: 63 },
-      { bottom: 50, top: 69 },
-      { bottom: 62, top: 81 },
-      { bottom: 74, top: 92 },
-    ];
+    this.#initializeBoardImage();
     this.#initializeNodes();
     this.#initializeSnakes();
     this.#initializeLadders();
@@ -344,15 +312,21 @@ class Board {
     Logger.addLoggerEntry(`${Board.currentPlayerDisplayName} player's turn, ${Board.currentPlayerDisplayName} player can roll the die`);
   }
 
+  #initializeBoardImage() {
+    document.getElementById("game-board-img").src = `./images/boards/${this.#boardName}.jpg`;
+    Logger.addLoggerEntry("Initialized Board Image");
+  }
+
   #initializeNodes() {
-    for (var i = 0; i < 100; i++) {
+    const { rowSize, rowCount } = this.#boardData.uiSpecs;
+    for (var i = 0; i < (rowSize * rowCount); i++) {
       Board.nodes.push(new Node());
     }
     Logger.addLoggerEntry("Initialized Nodes");
   }
 
   #initializeSnakes() {
-    this.#snakesList.forEach((snake) => {
+    this.#boardData.snakesList.forEach((snake) => {
       const { head, tail } = snake;
       const headNode = Board.nodes[head - 1];
       headNode.setSnake(new Snake(head, tail));
@@ -361,7 +335,7 @@ class Board {
   }
 
   #initializeLadders() {
-    this.#laddersList.forEach((ladder) => {
+    this.#boardData.laddersList.forEach((ladder) => {
       const { top, bottom } = ladder;
       const bottomNode = Board.nodes[bottom - 1];
       bottomNode.setLadder(new Ladder(top, bottom));
