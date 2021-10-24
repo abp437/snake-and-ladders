@@ -252,8 +252,12 @@ class Dice {
 
 class Logger {
   static addLoggerEntry(message) {
-    const loggerEntry = Util.htmlElemFromString(`<p class="is-family-monospace mb-2"><span class="has-text-weight-semibold">Bot:</span><span class="ml-3">${message}</span></p>`),
-      loggerElem = document.getElementById("logger");
+    const date = new Date();
+    const timeSuffix = date.getHours() > 12 ? "PM" : "AM";
+    const hourString = date.getHours() % 12 === 0 ? 12 : date.getHours() % 12;
+    const dateString = `${Util.padToTwoDigits(hourString)}:${Util.padToTwoDigits(date.getMinutes())}:${Util.padToTwoDigits(date.getSeconds())} ${timeSuffix}`;
+    const loggerElem = document.getElementById("logger");
+    const loggerEntry = Util.htmlElemFromString(`<div class="is-family-code mb-3"><p class="is-flex is-justify-content-space-between is-align-items-baseline has-text-weight-semibold has-text-grey"><span>Bot</span><span class="is-size-7">${dateString}<span></p><p>${message}</p><hr class="m-1"></div>`);
 
     loggerElem.appendChild(loggerEntry);
     loggerElem.scrollTop = loggerElem.scrollHeight;
@@ -308,6 +312,7 @@ class Board {
     this.#initializeSnakes();
     this.#initializeLadders();
     this.#initializePlayers();
+    this.#initializeTimer();
     Logger.addLoggerEntry("Game is ready to be played");
     Logger.addLoggerEntry(`${Board.currentPlayerDisplayName} player's turn, ${Board.currentPlayerDisplayName} player can roll the die`);
   }
@@ -355,6 +360,24 @@ class Board {
     Logger.addLoggerEntry("Initialized Players");
     Board.currentPlayer = Board.players[0];
     Game.showCurrentTurnText();
+  }
+
+  #initializeTimer() {
+    const timerElem = document.getElementById("time-passed");
+    let counter = 0;
+    const secondsInMinute = 60;
+
+    setInterval(() => {
+      if (counter < secondsInMinute) {
+        timerElem.innerHTML = `00:${Util.padToTwoDigits(counter)}`;
+      } else {
+        timerElem.innerHTML = `${Util.padToTwoDigits(Math.floor(counter / secondsInMinute))
+          }:${Util.padToTwoDigits(counter % secondsInMinute)
+          }`;
+      }
+      counter++;
+    }, 1000);
+    Logger.addLoggerEntry("Initialized Timer");
   }
 }
 
@@ -604,6 +627,8 @@ class Util {
   static isSpacebarPressed(e) {
     return e.keyCode === this.spacebarKeyCode;
   }
+
+  static padToTwoDigits = (digit) => (`0${digit}`).slice(-2);
 }
 
 function selectBoard(boardsList, event) {
@@ -645,7 +670,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("game-init-step").classList.add("is-hidden");
     document.getElementById("snake-game-step").classList.remove("is-hidden");
-    document.getElementById("snake-game-step").classList.add(`${document.getElementById("selected-board").value}-snake-board`);
+    document.getElementById("snake-game-step").classList.add(`${document.getElementById("selected-board").value
+      }-snake-board`);
   });
 
   const boardsList = Array.from(
