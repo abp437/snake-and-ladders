@@ -659,7 +659,7 @@ document.addEventListener("DOMContentLoaded", () => {
       throw new Error("Halted game execution");
     }
 
-    if (playerCount > 5) {
+    if (playerCount > 4) {
       alert("Max 4 players can play the game");
       throw new Error("Halted game execution");
     }
