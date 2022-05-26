@@ -11,4 +11,5 @@ This is a simple Snake and Ladders game built with vanilla JavaScript using OOP 
 - If a player climbs a ladder he gets an extra dice roll
 
 # Gameplay
-![https://raw.githubusercontent.com/abp437/snake-and-ladders/main/images/gameplay-v1.1mov](https://raw.githubusercontent.com/abp437/snake-and-ladders/main/images/gameplay-v1.1.gif)
+https://user-images.githubusercontent.com/25534354/170442574-118c2132-d9d5-42ff-b566-caa3aaba5f70.mp4
+
